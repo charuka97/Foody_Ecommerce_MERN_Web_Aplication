@@ -1,8 +1,27 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import logo from "/images/logo.png";
 import { BiPhoneCall } from "react-icons/bi";
 
 const Navbar = () => {
+
+  // Handle Scroll function 
+  const [isSticky, setSticky] = useState(false);
+  useEffect(() => {
+    const handleScroll = () => {
+      const offSet = window.scrollY;
+      if (offSet > 0) {
+        setSticky(true);
+      } else {
+        setSticky(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.addEventListener("scroll", handleScroll);
+    };
+  }, []);
   const NavItems = (
     <>
       <li>
@@ -46,8 +65,8 @@ const Navbar = () => {
     </>
   );
   return (
-    <header className="container mx-auto max-w-screen-2xl">
-      <div className="navbar xl:px-24">
+    <header className="container mx-auto max-w-screen-2xl fixed top-0 left-0 right-0">
+      <div className={`navbar xl:px-24 ${isSticky ? "shadow-lg bg-base-100 transition-all duration-300 ease-linear-out" : ""}`}>
         <div className="navbar-start">
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -101,8 +120,12 @@ const Navbar = () => {
             </svg>
           </button>
 
-           {/* Cart button */}
-          <div tabindex="0" role="button" class="btn btn-ghost hidden lg:flex btn-circle">
+          {/* Cart button */}
+          <div
+            tabindex="0"
+            role="button"
+            class="btn btn-ghost hidden lg:flex btn-circle"
+          >
             <div class="indicator">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -121,8 +144,8 @@ const Navbar = () => {
               <span class="badge badge-sm indicator-item">8</span>
             </div>
           </div>
-          
-           {/* Contact button */}
+
+          {/* Contact button */}
           <a className="flex items-center gap-2 px-8 py-2 rounded-full hover:bg-gray-300 text-white  bg-green">
             <BiPhoneCall /> Contact
           </a>
