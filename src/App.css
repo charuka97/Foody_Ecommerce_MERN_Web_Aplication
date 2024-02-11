@@ -22,3 +22,7 @@
 .heartStar{
   border-radius: 0px 28px 0px 28px;
 }
+
+.active{
+  @apply text-green underline
+}
