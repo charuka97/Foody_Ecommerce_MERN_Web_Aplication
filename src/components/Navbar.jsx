@@ -1,11 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import logo from "/images/logo.png";
-import { BiPhoneCall } from "react-icons/bi";
+import { FaRegUser } from "react-icons/fa";
+import Modal from "./Modal";
+import { AuthContext } from "../contexts/AuthProvider";
+import Profile from "./Profile";
 
 const Navbar = () => {
   // Handle Scroll function
   const [isSticky, setSticky] = useState(false);
-  
+  const { user } = useContext(AuthContext);
+
   useEffect(() => {
     const handleScroll = () => {
       const offset = window.scrollY;
@@ -25,7 +29,9 @@ const Navbar = () => {
   const NavItems = (
     <>
       <li>
-        <a className="text-green" href="/">Home</a>
+        <a className="text-green" href="/">
+          Home
+        </a>
       </li>
       <li>
         <details>
@@ -65,7 +71,7 @@ const Navbar = () => {
     </>
   );
   return (
-    <header className="container mx-auto max-w-screen-2xl fixed top-0 left-0 right-0">
+    <header className="container mx-auto max-w-screen-2xl fixed top-0 left-0 right-0 z-10">
       <div
         className={`navbar xl:px-24 ${
           isSticky
@@ -148,9 +154,19 @@ const Navbar = () => {
           </div>
 
           {/* Contact button */}
-          <a className="flex items-center gap-2 px-8 py-2 rounded-full hover:bg-gray-300 text-white  bg-green">
-            <BiPhoneCall /> Contact
-          </a>
+          {user ? (
+            <Profile user={user} />
+          ) : (
+            <button
+              onClick={() => document.getElementById("my_modal_5").showModal()}
+              className="flex items-center gap-2 px-5 py-2 rounded-full hover:bg-gray-300 text-white  bg-green"
+            >
+              <FaRegUser /> Login
+            </button>
+          )}
+
+          {/* Modal */}
+          <Modal />
         </div>
       </div>
     </header>
