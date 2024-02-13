@@ -153,8 +153,9 @@ const Navbar = () => {
             </div>
           </div>
 
-          {/* Contact button */}
-          {user ? (
+       <div className="md:pl-3 pr-8">
+           {/* Contact button */}
+           {user ? (
             <Profile user={user} />
           ) : (
             <button
@@ -164,6 +165,7 @@ const Navbar = () => {
               <FaRegUser /> Login
             </button>
           )}
+       </div>
 
           {/* Modal */}
           <Modal />

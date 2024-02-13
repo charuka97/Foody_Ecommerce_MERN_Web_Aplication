@@ -20,7 +20,7 @@ const Cards = ({ item }) => {
       </div>
       <Link to={`/menu/${item._id}`}>
         <figure>
-          <img src={item.image} alt="Shoes" className="hover:scale-105 transition-all duration-300 md:h-72" />
+          <img src={item.image} alt="" className="hover:scale-105 transition-all duration-300 md:h-45" />
         </figure>
       </Link>
       <div className="card-body">
