@@ -4,11 +4,14 @@ import { FaRegUser } from "react-icons/fa";
 import Modal from "./Modal";
 import { AuthContext } from "../contexts/AuthProvider";
 import Profile from "./Profile";
+import { Link } from "react-router-dom";
+import useCart from "../hooks/useCart";
 
 const Navbar = () => {
   // Handle Scroll function
   const [isSticky, setSticky] = useState(false);
   const { user } = useContext(AuthContext);
+  const [cart, refetch] = useCart();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -71,7 +74,7 @@ const Navbar = () => {
     </>
   );
   return (
-    <header className="container mx-auto max-w-screen-2xl fixed top-0 left-0 right-0 z-10">
+    <header className="container fixed top-0 left-0 right-0 z-10 mx-auto max-w-screen-2xl">
       <div
         className={`navbar xl:px-24 ${
           isSticky
@@ -110,12 +113,12 @@ const Navbar = () => {
             {/* Nav Items List */} {NavItems}
           </ul>
         </div>
-        <div className="navbar-end py-3 gap-2">
+        <div className="gap-2 py-3 navbar-end">
           {/* Search button */}
-          <button className="btn btn-ghost btn-circle hidden lg:flex">
+          <button className="hidden btn btn-ghost btn-circle lg:flex">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
+              className="w-5 h-5"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -130,42 +133,48 @@ const Navbar = () => {
           </button>
 
           {/* Cart button */}
-          <div
-            role="button"
-            className="btn btn-ghost hidden lg:flex btn-circle"
-          >
-            <div className="indicator">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-                />
-              </svg>
-              <span className="badge badge-sm indicator-item">8</span>
-            </div>
-          </div>
-
-       <div className="md:pl-3 pr-8">
-           {/* Contact button */}
-           {user ? (
-            <Profile user={user} />
-          ) : (
-            <button
-              onClick={() => document.getElementById("my_modal_5").showModal()}
-              className="flex items-center gap-2 px-5 py-2 rounded-full hover:bg-gray-300 text-white  bg-green"
+          <Link to="cart-page">
+            {" "}
+            <div
+              role="button"
+              className="hidden btn btn-ghost lg:flex btn-circle"
             >
-              <FaRegUser /> Login
-            </button>
-          )}
-       </div>
+              <div className="indicator">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+                  />
+                </svg>
+                <span className="badge badge-sm indicator-item">
+                  {cart.length || 0}
+                </span>
+              </div>
+            </div>
+          </Link>
+          <div className="pr-8 md:pl-3">
+            {/* Contact button */}
+            {user ? (
+              <Profile user={user} />
+            ) : (
+              <button
+                onClick={() =>
+                  document.getElementById("my_modal_5").showModal()
+                }
+                className="flex items-center gap-2 px-5 py-2 text-white rounded-full hover:bg-gray-300 bg-green"
+              >
+                <FaRegUser /> Login
+              </button>
+            )}
+          </div>
 
           {/* Modal */}
           <Modal />
