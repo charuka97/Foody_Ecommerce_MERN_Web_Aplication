@@ -3,23 +3,27 @@ import { FaHeart } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthProvider";
 import Swal from "sweetalert2";
+import useCart from "../hooks/useCart";
+import axios from "axios";
 
 const Cards = ({ item }) => {
   const { name, image, price, recipe, _id } = item;
-  const [isHeartFilled, setIsHeartFilled] = useState(false);
-  const { user } = useContext(AuthContext);
 
-  //Redirecting to home page or specific page
-  const location = useLocation();
+  const { user } = useContext(AuthContext);
+  const [cart, refetch] = useCart();
   const navigate = useNavigate();
+  const location = useLocation();
+  // console.log(item)
+  const [isHeartFilled, setIsHeartFilled] = useState(false);
 
   const handleHeartClick = () => {
     setIsHeartFilled(!isHeartFilled);
   };
 
-  // Add to cart button
+  // add to cart handler
   const handleAddToCart = (item) => {
-    if (user && user?.email) {
+    // console.log(item);
+    if (user && user.email) {
       const cartItem = {
         menuItemId: _id,
         name,
@@ -29,43 +33,67 @@ const Cards = ({ item }) => {
         email: user.email,
       };
 
-      //implement add item to cart function here
+      axios
+        .post("http://localhost:5000/carts", cartItem)
+        .then((response) => {
+          console.log(response);
+          if (response) {
+            refetch(); // refetch cart
+            Swal.fire({
+              position: "center",
+              icon: "success",
+              title: "Food added on the cart.",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+          }
+        })
+        .catch((error) => {
+          console.log(error.response.data.message);
+          const errorMessage = error.response.data.message;
+          Swal.fire({
+            position: "center",
+            icon: "warning",
+            title: `${errorMessage}`,
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        });
     } else {
       Swal.fire({
-        title: "Need to Login?",
-        text: "Sorry, Without an account you can't able to add product!",
+        title: "Please login to order the food",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, Signup Now!",
+        confirmButtonText: "Login now!",
       }).then((result) => {
         if (result.isConfirmed) {
-          //Navigate to signup page
-          navigate('/signup', {state:{from : location}});
+          navigate("/login", { state: { from: location } });
         }
       });
     }
   };
+
   return (
     <div
       to={`/menu/${item._id}`}
       className="relative mr-5 shadow-xl card md:my-5"
     >
       <div
-        className={`rating gap-1 absolute right-2 top-2 p-3.5 heartStar bg-green ${
+        className={`rating gap-1 absolute right-2 top-2 p-4 heartStar bg-green ${
           isHeartFilled ? "text-rose-500" : "text-white"
         }`}
         onClick={handleHeartClick}
       >
-        <FaHeart className="w-3 h-3 cursor-pointer" />
+        <FaHeart className="w-5 h-5 cursor-pointer" />
       </div>
       <Link to={`/menu/${item._id}`}>
         <figure>
           <img
             src={item.image}
-            alt=""
-            className="transition-all duration-300 hover:scale-105 md:h-45"
+            alt="Shoes"
+            className="transition-all duration-300 hover:scale-105 md:h-72"
           />
         </figure>
       </Link>
@@ -79,8 +107,8 @@ const Cards = ({ item }) => {
             <span className="text-sm text-red">$ </span> {item.price}
           </h5>
           <button
-            className="text-white btn bg-green"
             onClick={() => handleAddToCart(item)}
+            className="text-white btn bg-green"
           >
             Add to Cart{" "}
           </button>
