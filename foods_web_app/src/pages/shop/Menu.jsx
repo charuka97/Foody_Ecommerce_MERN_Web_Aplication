@@ -13,9 +13,8 @@ const Menu = () => {
   useEffect(() => {
     const fetchedData = async () => {
       try {
-        const res = await fetch("/menu.json");
+        const res = await fetch("http://localhost:5000/menu");
         const data = await res.json();
-        //console.log('data : ', data);
         setMenu(data);
         setFilteredItems(data);
       } catch (e) {
@@ -83,9 +82,9 @@ const Menu = () => {
     <div className="section-container">
       {/* Menu Banner */}
       <div className="section-container bg-gradient-to-r from-[#FAFAFA] from-0% to-[#FCFCFC] to-100%">
-        <div className="py-48 flex flex-col justify-center items-center">
-          <div className="text-center space-y-8 px-4">
-            <h2 className="md:text-5xl text-4xl font-bold md:leading-snug leading-snug">
+        <div className="flex flex-col items-center justify-center py-48">
+          <div className="px-4 space-y-8 text-center">
+            <h2 className="text-4xl font-bold leading-snug md:text-5xl md:leading-snug">
               Dive into Delights Of Delectable{" "}
               <span className="text-green">Food</span>
             </h2>
@@ -95,7 +94,7 @@ const Menu = () => {
               Craftsmanship
             </p>
 
-            <button className="btn bg-green rounded-full px-8 py-2 font-semibold text-white">
+            <button className="px-8 py-2 font-semibold text-white rounded-full btn bg-green">
               Order Now
             </button>
           </div>
@@ -105,9 +104,9 @@ const Menu = () => {
       {/* Menu shop */}
       <div className="section-container">
         {/* filtering and shorting */}
-        <div className="flex flex-col md:flex-row flex-wrap md:justify-between items-center space-y-3 mb-8">
+        <div className="flex flex-col flex-wrap items-center mb-8 space-y-3 md:flex-row md:justify-between">
           {/* buttons */}
-          <div className="flex flex-row justify-start md:items-center md:gap-8 gap-4  flex-wrap">
+          <div className="flex flex-row flex-wrap justify-start gap-4 md:items-center md:gap-8">
             <button
               onClick={showAll}
               className={selectedCategory === "all" ? "active" : ""}
@@ -148,15 +147,15 @@ const Menu = () => {
 
           {/* shorting */}
           <div className="flex justify-end mb-4 rounded-md">
-            <div className="bg-black p-2 ">
-              <FaFilter className="h-4 w-4 text-white" />
+            <div className="p-2 bg-black ">
+              <FaFilter className="w-4 h-4 text-white" />
             </div>
             <select
               name="sort"
               id="sort"
               onChange={(e) => handleSortChange(e.target.value)}
               value={sortOption}
-              className="bg-black text-white px-2 py-1 rounded-sm"
+              className="px-2 py-1 text-white bg-black rounded-sm"
             >
               <option value="default">Default</option>
               <option value="A-Z">A-Z</option>
@@ -168,7 +167,7 @@ const Menu = () => {
         </div>
 
         {/* Products Cards */}
-        <div className="grid md:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-4">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-4 sm:grid-cols-2">
           {currentItems.map((item) => (
             <Cards key={item._id} item={item} />
           ))}

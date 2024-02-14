@@ -13,7 +13,7 @@ app.use(express.json());
 // mongodb configuration using mongoose
 mongoose
   .connect(
-    `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@foodsapp.xszhces.mongodb.net/?retryWrites=true&w=majority`
+    `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@foodsapp.xszhces.mongodb.net/foodsAppsBD?retryWrites=true&w=majority`
   )
   .then(console.log("MongoDB Connected Successfully!"))
   .catch((error) => console.log("Error connecting to MongoDB", error));
@@ -28,11 +28,11 @@ app.post("/jwt", async (req, res) => {
 });
 
 //   import routes here
-// const menuRoutes = require("./api/routes/menuRoutes");
-// const cartRoutes = require("./api/routes/cartRoutes");
+const menuRoutes = require("./api/routes/MenuRoutes");
+const cartRoutes = require("./api/routes/cartRoutes");
 // const userRoutes = require("./api/routes/userRoutes");
-// app.use("/menu", menuRoutes);
-// app.use("/carts", cartRoutes);
+app.use("/menu", menuRoutes);
+app.use("/carts", cartRoutes);
 // app.use("/users", userRoutes);
 
 app.get("/", (req, res) => {

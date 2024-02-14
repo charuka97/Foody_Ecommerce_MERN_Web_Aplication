@@ -13,6 +13,8 @@ const Navbar = () => {
   const { user } = useContext(AuthContext);
   const [cart, refetch] = useCart();
 
+  console.log('aaaaaaaaaaaaaaaaaaaa : ', cart);
+
   useEffect(() => {
     const handleScroll = () => {
       const offset = window.scrollY;
@@ -133,7 +135,7 @@ const Navbar = () => {
           </button>
 
           {/* Cart button */}
-          <Link to="cart-page">
+          <Link to="/cart-page">
             {" "}
             <div
               role="button"
