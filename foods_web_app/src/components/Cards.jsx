@@ -13,7 +13,6 @@ const Cards = ({ item }) => {
   const [cart, refetch] = useCart();
   const navigate = useNavigate();
   const location = useLocation();
-  // console.log(item)
   const [isHeartFilled, setIsHeartFilled] = useState(false);
 
   const handleHeartClick = () => {
@@ -81,7 +80,7 @@ const Cards = ({ item }) => {
       className="relative mr-5 shadow-xl card md:my-5"
     >
       <div
-        className={`rating gap-1 absolute right-2 top-2 p-4 heartStar bg-green ${
+        className={`rating gap-1 absolute right-2 top-2 ${location.pathname === '/menu' ? 'p-3' : 'p-4'} heartStar bg-green ${
           isHeartFilled ? "text-rose-500" : "text-white"
         }`}
         onClick={handleHeartClick}
@@ -93,7 +92,7 @@ const Cards = ({ item }) => {
           <img
             src={item.image}
             alt="Shoes"
-            className="transition-all duration-300 hover:scale-105 md:h-72"
+            className={`transition-all duration-300 hover:scale-105 ${location.pathname === '/menu' ? 'md:h-[12.8rem]' : 'md:h-72'} `}
           />
         </figure>
       </Link>

@@ -1,14 +1,24 @@
 import React, { useContext } from "react";
 import { AuthContext } from "../contexts/AuthProvider";
-
+import Dashboard from "./../pages/dashboard/admin/Dashboard";
+import { Link } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 const Profile = ({ user }) => {
   const { logOut } = useContext(AuthContext);
+
+  const { refetch, data: users = [] } = useQuery({
+    queryKey: ["users"],
+    queryFn: async () => {
+      const res = await fetch(`http://localhost:5000/users`);
+      return res.json();
+    },
+  });
 
   const handleLogOut = () => {
     logOut()
       .then(() => {
         // Sign-out successful.
-        alert('Log Out!')
+        alert("Log Out!");
       })
       .catch((error) => {
         // An error happened.
@@ -53,6 +63,15 @@ const Profile = ({ user }) => {
             <li>
               <a>Setting</a>
             </li>
+            {/* {user.role === "admin" && (
+              <li>
+                <Link to="/dashboard">Dashboard</Link>
+              </li>
+            )} */}
+            <li>
+              <Link to="/dashboard">Dashboard</Link>
+            </li>
+
             <li>
               <a onClick={handleLogOut}>Logout</a>
             </li>

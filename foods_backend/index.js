@@ -30,10 +30,10 @@ app.post("/jwt", async (req, res) => {
 //   import routes here
 const menuRoutes = require("./api/routes/MenuRoutes");
 const cartRoutes = require("./api/routes/cartRoutes");
-// const userRoutes = require("./api/routes/userRoutes");
+const userRoutes = require("./api/routes/userRoutes");
 app.use("/menu", menuRoutes);
 app.use("/carts", cartRoutes);
-// app.use("/users", userRoutes);
+app.use("/users", userRoutes);
 
 app.get("/", (req, res) => {
   res.send("Hello Foodi Client Server!");
