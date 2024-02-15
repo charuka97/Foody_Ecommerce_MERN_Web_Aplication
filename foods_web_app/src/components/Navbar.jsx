@@ -1,19 +1,16 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import logo from "/images/logo.png";
 import { FaRegUser } from "react-icons/fa";
 import Modal from "./Modal";
-import { AuthContext } from "../contexts/AuthProvider";
 import Profile from "./Profile";
 import { Link } from "react-router-dom";
 import useCart from "../hooks/useCart";
+import useAuth from "../hooks/useAuth";
 
 const Navbar = () => {
-  // Handle Scroll function
   const [isSticky, setSticky] = useState(false);
-  const { user } = useContext(AuthContext);
+  const {user, loading} = useAuth();
   const [cart, refetch] = useCart();
-
-  console.log('aaaaaaaaaaaaaaaaaaaa : ', cart);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -31,14 +28,15 @@ const Navbar = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-  const NavItems = (
+
+  const navItems = (
     <>
       <li>
-        <a className="text-green" href="/">
+        <a href="/" className="text-green">
           Home
         </a>
       </li>
-      <li>
+      <li tabIndex={0}>
         <details>
           <summary>Menu</summary>
           <ul className="p-2">
@@ -54,12 +52,12 @@ const Navbar = () => {
           </ul>
         </details>
       </li>
-      <li>
+      <li tabIndex={0}>
         <details>
           <summary>Services</summary>
-          <ul className="p-3">
+          <ul className="p-2">
             <li>
-              <a>Online Orders</a>
+              <a>Online Order</a>
             </li>
             <li>
               <a>Table Booking</a>
@@ -76,20 +74,22 @@ const Navbar = () => {
     </>
   );
   return (
-    <header className="container fixed top-0 left-0 right-0 z-10 mx-auto max-w-screen-2xl">
+    <header
+      className={`max-w-screen-2xl container mx-auto fixed top-0 left-0 right-0 transition-all duration-300 ease-in-out z-10`}
+    >
       <div
         className={`navbar xl:px-24 ${
           isSticky
-            ? "shadow-lg bg-base-100 transition-all duration-300 ease-linear-out"
+            ? "shadow-md bg-base-100 transition-all duration-300 ease-in-out"
             : ""
         }`}
       >
         <div className="navbar-start">
-          <div className="dropdown">
-            <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
+          <div className="dropdown justify-between">
+            <label tabIndex={0} className="btn btn-ghost lg:hidden">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="w-5 h-5"
+                className="h-5 w-5"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -101,26 +101,26 @@ const Navbar = () => {
                   d="M4 6h16M4 12h8m-8 6h16"
                 />
               </svg>
-            </div>
-            <ul className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-              {/* Nav Items List */} {NavItems}
+            </label>
+            <ul
+              tabIndex={0}
+              className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-64 space-y-3"
+            >
+              {navItems}
             </ul>
           </div>
           <a href="/">
             <img src={logo} alt="" />
           </a>
         </div>
-        <div className="hidden navbar-center lg:flex">
-          <ul className="px-1 menu menu-horizontal">
-            {/* Nav Items List */} {NavItems}
-          </ul>
+        <div className="navbar-center hidden lg:flex">
+          <ul className="menu menu-horizontal px-1">{navItems}</ul>
         </div>
-        <div className="gap-2 py-3 navbar-end">
-          {/* Search button */}
-          <button className="hidden btn btn-ghost btn-circle lg:flex">
+        <div className="navbar-end ">
+          <button className="btn btn-ghost btn-circle hidden lg:flex">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="w-5 h-5"
+              className="h-5 w-5"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -133,53 +133,43 @@ const Navbar = () => {
               />
             </svg>
           </button>
-
-          {/* Cart button */}
-          <Link to="/cart-page">
-            {" "}
-            <div
-              role="button"
-              className="hidden btn btn-ghost lg:flex btn-circle"
-            >
-              <div className="indicator">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-5 w-5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-                  />
-                </svg>
-                <span className="badge badge-sm indicator-item">
-                  {cart.length || 0}
-                </span>
-              </div>
-            </div>
-          </Link>
-          <div className="pr-8 md:pl-3">
-            {/* Contact button */}
-            {user ? (
-              <Profile user={user} />
-            ) : (
-              <button
-                onClick={() =>
-                  document.getElementById("my_modal_5").showModal()
-                }
-                className="flex items-center gap-2 px-5 py-2 text-white rounded-full hover:bg-gray-300 bg-green"
+         
+         {/* shopping cart */}
+         <Link to="/cart-page">
+         <label
+            tabIndex={0}
+            className="btn btn-ghost btn-circle  lg:flex items-center justify-center mr-3"
+          >
+            <div className="indicator">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
               >
-                <FaRegUser /> Login
-              </button>
-            )}
-          </div>
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+                />
+              </svg>
+              <span className="badge badge-sm indicator-item">{cart.length || 0}</span>
+            </div>
+          </label>
+         </Link>
 
-          {/* Modal */}
-          <Modal />
+          {/* login button */}
+
+          { 
+            user ? <>
+           <Profile user={user}/>
+          </> : <button onClick={()=>document.getElementById('my_modal_5').showModal()} className="btn flex items-center gap-2 rounded-full px-6 bg-green text-white">
+            <FaRegUser /> Login
+          </button>
+          }
+          <Modal/>
         </div>
       </div>
     </header>
