@@ -13,8 +13,11 @@ import Login from "../components/Login";
 import AddMenu from "../pages/dashboard/admin/AddMenu";
 import ManageItems from "../pages/dashboard/admin/ManageItems";
 import UpdateMenu from "../pages/dashboard/admin/UpdateMenu";
+import Payment from "../pages/shop/Payment";
+import Order from "../pages/shop/Order";
 
 const router = createBrowserRouter([
+  // User's routes
   {
     path: "/",
     element: <Main />,
@@ -39,6 +42,14 @@ const router = createBrowserRouter([
         path: "/update-profile",
         element: <UpdateProfile />,
       },
+      {
+        path: "/process-checkout",
+        element: <Payment />,
+      },
+      {
+        path: "/order",
+        element: <Order />,
+      },
     ],
   },
   {
@@ -49,6 +60,7 @@ const router = createBrowserRouter([
     path: "/login",
     element: <Login />,
   },
+  // Admin's routes
   {
     path: "/dashboard",
     element: (

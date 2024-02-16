@@ -6,3 +6,13 @@ https://sweetalert2.github.io/ : for alert {12345jklmB}
 https://tanstack.com/ : State Management, Routing, Data Visualization, Charts, Tables, and more.
 https://www.mongodb.com/docs/drivers/node/current/fundamentals/crud/ : get some help with sample crud operations
 https://imgbb.com/ : upload images in cloud and get that URL
+https://github.com/stripe/react-stripe-js : react stripe sample codes
+https://docs.stripe.com/payments/quickstart : react stripe documention
+
+
+
+
+
+stripe un & pw
+charukatharindhu@gmil.com
+12345678jklmB@
