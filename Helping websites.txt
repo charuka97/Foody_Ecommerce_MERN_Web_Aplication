@@ -5,3 +5,4 @@ https://react-hook-form.com/: forms with easy-to-use validation.
 https://sweetalert2.github.io/ : for alert {12345jklmB}
 https://tanstack.com/ : State Management, Routing, Data Visualization, Charts, Tables, and more.
 https://www.mongodb.com/docs/drivers/node/current/fundamentals/crud/ : get some help with sample crud operations
+https://imgbb.com/ : upload images in cloud and get that URL
